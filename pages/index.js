@@ -1,16 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect } from "react";
-import Router from "next/router";
 import { providers, getSession } from "next-auth/client";
 import LoginForm from "../components/loginform";
 import GoogleSignIn from "../components/gosignin";
+import { useRouter  } from "next/router";
+import Router from "next/router";
 
 function Home({ providers, session }) {
+  
   useEffect(() => {
-    if (session) Router.push("/profile");
+    if (session) {Router.push("/profile");}
   }, [session]);
 
+  const { error } = useRouter().query;
+  
+//AccessDenied CredentialsSignin
   if (session) return <></>;
   return (
     <>

@@ -2,8 +2,17 @@ import "../styles/globals.css";
 import { Provider } from "next-auth/client";
 
 import Head from "next/head";
+import { useEffect } from "react";
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, router }) {
+  useEffect(() => {
+    if (
+      router.asPath.endsWith("#") ||
+      router.asPath.includes("callback") ||
+      router.asPath.includes("?")
+    )
+      router.push(router.pathname);
+  });
   return (
     <Provider>
       <Head>

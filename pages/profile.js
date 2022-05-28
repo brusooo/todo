@@ -3,7 +3,6 @@ import { signOut } from "next-auth/client";
 import { getSession } from "next-auth/client";
 
 const Profile = ({session}) => {
-  console.log(session)
   return (
     <>
       <div>profile</div>
