@@ -43,26 +43,7 @@ export default NextAuth({
   },
 
   database: process.env.MONGODB_URI,
-
-  callbacks: {
-    async signIn({ email }) {
-      if (email) {
-        let result = await fetch(
-          `http://localhost:3000/api/auth/googlelogin?email=${email}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        let isAuthenticated = await result.json();
-
-        if (isAuthenticated.signIn == "successful") return true;
-        return false;
-      }
-    },
-  },
+ 
 
   pages: {
     error: "/",

@@ -1,24 +1,33 @@
 import Image from "next/image";
-import Link from "next/link";
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { providers, getSession } from "next-auth/client";
 import LoginForm from "../components/loginform";
 import GoogleSignIn from "../components/gosignin";
-import { useRouter  } from "next/router";
+import { useRouter } from "next/router";
 import Router from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Home({ providers, session }) {
-  
+  const [active, setActive] = useState(false);
+
   useEffect(() => {
-    if (session) {Router.push("/profile");}
+    if (session) {
+      Router.push("/profile");
+    }
   }, [session]);
 
   const { error } = useRouter().query;
-  
-//AccessDenied CredentialsSignin
+  if (error) {
+    toast.error("Invalid Credentials", {
+      toastId: error,
+    });
+  }
+
   if (session) return <></>;
   return (
     <>
+      <ToastContainer />
       <div className="max-w-full min-h-screen">
         <div className="w-[31%] lg:w-[38%] md:w-[46%] vs:w-[100%] min-h-screen my-10 mx-8 bg-white left-0 absolute flex justify-start items-start">
           <div className="w-[80%]  min-h-full flex justify-start items-start flex-col">
@@ -34,7 +43,7 @@ function Home({ providers, session }) {
               </h1>
             </div>
 
-            <GoogleSignIn providers={providers} session={session} />
+            <GoogleSignIn active={active} />
 
             <div className="flex justify-center items-center vs:w-[80%] w-full h-[0.15rem] bg-slate-500">
               <span className="bg-white p-2 rounded-[50%] font-semibold">
@@ -42,23 +51,19 @@ function Home({ providers, session }) {
               </span>
             </div>
 
-            <LoginForm />
+            <LoginForm active={active} />
 
             <p className="md:text-[15px]">
-              Don't have an account ?
-              <Link href="/create_account">
-                <a className="font-semibold text-[#004e92]"> Sign up</a>
-              </Link>
+              {active ? "Already Have an account? " : "Don't Have an account? "}
+              <span
+                onClick={() => setActive(!active)}
+                className="font-semibold cursor-pointer text-[#004e92]"
+              >
+                {active ? " Sign in" : " Sign up"}
+              </span>
             </p>
           </div>
-          <div className='absolute hidden right-0 bottom-0 vs:flex'>
-            <Image 
-              src='/images/girl.svg'
-              width={ 350}
-              height={350}
-            >
-            </Image>
-          </div>
+         
         </div>
 
         <div className="w-[69%] lg:w-[62%] md:w-[54%] sm:w-[40%] vs:hidden min-h-screen bg-gradient-to-r from-[#000428] to-[#004e92] right-0 absolute flex justify-center items-center">
@@ -87,13 +92,8 @@ function Home({ providers, session }) {
               <Image src="/images/arrow.svg" alt="" width={90} height={90} />
             </div>
           </div>
-          <div className='absolute sm:scale-y-125 right-0 bottom-0 hidden md:flex'>
-            <Image
-              src="/images/man.svg"
-              alt=""
-              width= {350}
-              height={350}
-            />
+          <div className="absolute sm:scale-y-125 right-0 bottom-0 hidden md:flex">
+            <Image src="/images/man.svg" alt="" width={350} height={350} />
           </div>
         </div>
       </div>
@@ -107,6 +107,5 @@ Home.getInitialProps = async (context) => {
     session: await getSession(context),
   };
 };
-
 
 export default Home;
