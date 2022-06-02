@@ -3,7 +3,7 @@ import { signIn } from "next-auth/client";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 
-const LoginForm = ({ active }) => {
+const LoginForm = ({login , create}) => {
   const router = useRouter();
   const [values, setValues] = useState({
     username: "",
@@ -15,7 +15,7 @@ const LoginForm = ({ active }) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   }
 
-  const handleFormSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     const result = await signIn("credentials", {
       username: values.username,
@@ -34,7 +34,7 @@ const LoginForm = ({ active }) => {
 
     let response = await fetch("http://localhost:3000/api/auth/emaillogin", {
       method: "POST",
-      body: JSON.stringify(post)
+      body: JSON.stringify(post),
     });
 
     let user = await response.json();
@@ -87,21 +87,21 @@ const LoginForm = ({ active }) => {
           />
           <br />
 
-          {active ? (
+          {login ? (
             <button
-              className="border border-slate-300 w-[80%] p-2 rounded-lg bg-[#2fa8cc] text-white  font-semibold"
+              className="border border-slate-300 w-[50%] p-2 rounded-lg bg-[#2fa8cc] text-white  font-semibold"
+              disabled={values.email && values.password ? false : true}
+              onClick={handleLogin}
+            >
+              Login
+            </button>
+          ) : (
+            <button
+              className={`border border-slate-300 w-[80%] p-2 rounded-lg ${create ? 'bg-[#2fa8cc]' : 'bg-[#09F315]'} text-white  font-semibold`}
               disabled={values.email && values.password ? false : true}
               onClick={handleCreateAccount}
             >
               Create Account
-            </button>
-          ) : (
-            <button
-              className="border border-slate-300 w-[50%] p-2 rounded-lg bg-[#2fa8cc] text-white  font-semibold"
-              disabled={values.email && values.password ? false : true}
-              onClick={handleFormSubmit}
-            >
-              Login
             </button>
           )}
         </form>
