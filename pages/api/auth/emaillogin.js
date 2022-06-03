@@ -9,7 +9,7 @@ export default async function handler(req, res) {
 
       const user = await db
         .collection("emailSignin")
-        .find({ usename: req.body.email })
+        .find({ name: req.body.name })
         .toArray();
 
       if (!user.length > 0) {
@@ -23,12 +23,14 @@ export default async function handler(req, res) {
       const users = await db
         .collection("emailSignin")
         .find({
-          username: req.query.username,
+          name: req.query.name,
           email: req.query.email,
           password: req.query.password,
         })
         .toArray();
-      res.json({ signIn: users.length > 0 ? "successful" : "unsuccessful" });
+      
+        res.json(users[0]);
+
       break;
   }
 }

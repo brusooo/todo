@@ -7,7 +7,7 @@ import Router from "next/router";
 const Left = (props) => {
   return (
     <>
-      <div className="w-[31%] lg:w-[38%] md:w-[46%] vs:w-[100%] min-h-screen my-10 mx-8 bg-white left-0 absolute flex justify-start items-start">
+      <div className="w-[31%] lg:w-[38%] lg:top-[30px] md:w-[46%] vs:w-[100%] min-h-screen my-10 mx-8 bg-white left-0 absolute flex justify-start items-start">
         <div className="w-[80%]  min-h-full flex justify-start items-start flex-col">
           <div className="relative flex justify-center items-center">
             <Image

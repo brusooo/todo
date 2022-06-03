@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { signIn } from "next-auth/client";
-import { useRouter } from "next/router";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const LoginForm = ({login , create}) => {
-  const router = useRouter();
+  
   const [values, setValues] = useState({
-    username: "",
+    name: "",
     email: "",
     password: "",
   });
@@ -18,7 +17,7 @@ const LoginForm = ({login , create}) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     const result = await signIn("credentials", {
-      username: values.username,
+      name: values.name,
       email: values.email,
       password: values.password,
     });
@@ -27,7 +26,7 @@ const LoginForm = ({login , create}) => {
   const handleCreateAccount = async (e) => {
     e.preventDefault();
     let post = {
-      username: values.username,
+      name: values.name,
       email: values.email,
       password: values.password,
     };
@@ -38,29 +37,30 @@ const LoginForm = ({login , create}) => {
     });
 
     let user = await response.json();
-    console.log(user);
     if (user.result == "Successful") {
       toast("Created Successfully", {
         toastId: "success",
+        theme: "dark"
       });
     } else {
       toast.error("Email already registered", {
         toastId: "failure",
+        theme: "dark"
       });
     }
-    values.username = values.email = values.password = "";
+    values.name = values.email = values.password = "";
   };
 
   return (
     <>
-      <ToastContainer />
+
       <div className="my-10">
         <form className="flex flex-col">
           <label className="font-semibold">Username</label>
           <input
             type="text"
-            name="username"
-            value={values.username}
+            name="name"
+            value={values.name}
             onChange={handleChange}
             className="border-2 rounded-md w-[140%] h-10 pl-2 border-zinc-400"
           />

@@ -42,3 +42,16 @@ a {
 * {
   box-sizing: border-box;
 }
+
+
+.Toastify__progress-bar-theme--dark{
+  background : linear-gradient(
+    to right,
+    #4cd964,
+    #5ac8fa,
+    #007aff,
+    #34aadc,
+    #5856d6,
+    #ff2d55
+  ) !important;
+}

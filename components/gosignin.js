@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { signIn } from "next-auth/client";
 import Image from "next/image";
 

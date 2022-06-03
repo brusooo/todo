@@ -14,13 +14,13 @@ export default NextAuth({
     Providers.Credentials({
       name: "Credentials",
       credentials: {
-        username: { label: "username", type: "text" },
+        name: { label: "username", type: "text" },
         email: { label: "email", type: "email" },
         password: { label: "password", type: "password" },
       },
       async authorize(credentials) {
         let result = await fetch(
-          `http://localhost:3000/api/auth/emaillogin?username=${credentials.username}&email=${credentials.email}&password=${credentials.password}`,
+          `http://localhost:3000/api/auth/emaillogin?name=${credentials.name}&email=${credentials.email}&password=${credentials.password}`,
           {
             method: "GET",
             headers: {
@@ -29,8 +29,7 @@ export default NextAuth({
           }
         );
         let user = await result.json();
-
-        if (user.signIn == "successful") {
+        if (user) {
           return user;
         }
         return null;
@@ -38,12 +37,14 @@ export default NextAuth({
     }),
   ],
 
+  
+
   jwt: {
     secret: process.env.SECRET_KEY,
+    encryption: true,
   },
 
   database: process.env.MONGODB_URI,
- 
 
   pages: {
     error: "/",

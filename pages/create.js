@@ -5,14 +5,15 @@ import Left from "../components/left";
 
 const create = () => {
   setTimeout(() => {
-    toast("Create an Account", {
+    toast("✨ Create Account Here", {
       toastId: "create",
+      theme: "dark"
     });
   }, 500);
 
   return (
     <>
-      
+      <ToastContainer />
       <div className="max-w-full min-h-screen">
         <Left
           sentence="Already Registered? "

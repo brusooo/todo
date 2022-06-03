@@ -8,12 +8,15 @@ import Right from "../components/right";
 import Left from "../components/left";
 
 function Home({ session }) {
-
-  setTimeout(() => {
-    toast("Log in to Continue", {
-      toastId: "login",
-    });
-  }, 500);
+  
+  if(!session){
+    setTimeout(() => {
+      toast("✨ Log in to Continue", {
+        toastId: "login",
+        theme: "dark"
+      });
+    }, 500);
+  }
 
   useEffect(() => {
     if (session) {
@@ -25,13 +28,14 @@ function Home({ session }) {
   if (error) {
     toast.error("Invalid Credentials", {
       toastId: error,
+      theme: "dark"
     });
   }
 
   if (session) return <></>;
   return (
     <>
-     
+    <ToastContainer />
       <div className="max-w-full min-h-screen">
         <Left
           sentence="Don't Have an account? "
