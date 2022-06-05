@@ -6,18 +6,16 @@ export default async function handler(req, res) {
   switch (req.method) {
     case "POST":
       let bodyObject = JSON.parse(req.body);
-
       const user = await db
         .collection("emailSignin")
-        .find({ name: req.body.name })
+        .find({ name : bodyObject.name })
         .toArray();
 
-      if (!user.length > 0) {
+      if (user.length == 0) {
         let newUser = await db.collection("emailSignin").insertOne(bodyObject);
-        res.json({ result: "Successful" });
-        break;
+        return res.json({ result: "Successful" });
       }
-      res.json({ result : "Unsuccessful" });
+      return res.json({ result : "Unsuccessful" });
 
     case "GET":
       const users = await db

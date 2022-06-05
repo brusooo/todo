@@ -55,3 +55,7 @@ a {
     #ff2d55
   ) !important;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}

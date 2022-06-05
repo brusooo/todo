@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { signIn } from "next-auth/client";
 import { toast } from "react-toastify";
 
-const LoginForm = ({login , create}) => {
-  
+const LoginForm = ({ login, create }) => {
   const [values, setValues] = useState({
     name: "",
     email: "",
@@ -25,6 +24,7 @@ const LoginForm = ({login , create}) => {
 
   const handleCreateAccount = async (e) => {
     e.preventDefault();
+
     let post = {
       name: values.name,
       email: values.email,
@@ -37,31 +37,37 @@ const LoginForm = ({login , create}) => {
     });
 
     let user = await response.json();
+
     if (user.result == "Successful") {
+      values.name = "";
       toast("Created Successfully", {
         toastId: "success",
-        theme: "dark"
+        theme: "dark",
       });
     } else {
-      toast.error("Email already registered", {
+      toast.error("Username already taken", {
         toastId: "failure",
-        theme: "dark"
+        theme: "dark",
       });
     }
-    values.name = values.email = values.password = "";
+
+    setValues({ name: "", email: "", password: "" });
   };
 
   return (
     <>
-
       <div className="my-10">
-        <form className="flex flex-col">
+        <form className="flex flex-col" onSubmit={login ? handleLogin : handleCreateAccount}>
           <label className="font-semibold">Username</label>
           <input
             type="text"
             name="name"
             value={values.name}
             onChange={handleChange}
+            pattern={"^[A-Za-z][A-Za-z0-9_]{6,}$"}
+            title = {"Invalid Username"}
+            placeholder="eg Brusooo22"
+            autoComplete={"off"}
             className="border-2 rounded-md w-[140%] h-10 pl-2 border-zinc-400"
           />
           <br />
@@ -72,7 +78,6 @@ const LoginForm = ({login , create}) => {
             name="email"
             value={values.email}
             onChange={handleChange}
-            title="Invalid emailID"
             className="border-2 rounded-md w-[140%] h-10 pl-2 border-zinc-400"
           />
           <br />
@@ -83,6 +88,8 @@ const LoginForm = ({login , create}) => {
             name="password"
             onChange={handleChange}
             value={values.password}
+            pattern="[0-9a-zA-Z_@]{6,}"
+            title="atleast 6 characters long eg:@user_2022"
             className="border-2 rounded-md w-[140%] h-10 pl-2 border-zinc-400"
           />
           <br />
@@ -90,16 +97,28 @@ const LoginForm = ({login , create}) => {
           {login ? (
             <button
               className="border border-slate-300 w-[50%] p-2 rounded-lg bg-[#2fa8cc] text-white  font-semibold"
-              disabled={values.email && values.password ? false : true}
-              onClick={handleLogin}
+              disabled={
+                isNaN(values.name) &&
+                isNaN(values.email) &&
+                isNaN(values.password)
+                  ? false
+                  : true
+              }
             >
               Login
             </button>
           ) : (
             <button
-              className={`border border-slate-300 w-[80%] p-2 rounded-lg ${create ? 'bg-[#2fa8cc]' : 'bg-[#09F315]'} text-white  font-semibold`}
-              disabled={values.email && values.password ? false : true}
-              onClick={handleCreateAccount}
+              className={`border border-slate-300 w-[80%] p-2 rounded-lg ${
+                create ? "bg-[#2fa8cc]" : "bg-[#09F315]"
+              } text-white  font-semibold`}
+              disabled={
+                isNaN(values.name) &&
+                isNaN(values.email) &&
+                isNaN(values.password)
+                  ? false
+                  : true
+              }
             >
               Create Account
             </button>

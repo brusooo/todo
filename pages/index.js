@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { providers, getSession } from "next-auth/client";
+import { getSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import Router from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Right from "../components/right";
-import Left from "../components/left";
+import Right from "../components/gate/right";
+import Left from "../components/gate/left";
 
 function Home({ session }) {
   

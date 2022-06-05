@@ -1,19 +1,24 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { signOut } from "next-auth/client";
-import { getSession, useSession } from "next-auth/client";
+import { getSession } from "next-auth/client";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
+import Sam from "../components/todo/sam";
 
 const Profile = ({ session }) => {
+  const [winReady, setwinReady] = useState(false);
+  useEffect(() => {
+    setwinReady(true);
+  }, []);
+
   if (session) {
-    toast("👍  Login Successful! ", { toastId: "Success" , theme : "dark" });
+    toast("👍  Login Successful! ", { toastId: "Success", theme: "dark" });
   }
   return (
     <>
       <ToastContainer />
-
-      <div className="absolute w-full h-[8%] bg-[#333] top-0 left-0 flex justify-center items-center">
+      <div className="absolute w-full h-[9%] bg-gradient-to-r from-[#414141] to-[#000000] top-0 left-0 flex justify-center items-center">
         <div className="absolute flex left-3 justify-center items-center">
           <Image
             src="/images/left/feather.svg"
@@ -36,6 +41,12 @@ const Profile = ({ session }) => {
           </button>
         </div>
       </div>
+      {winReady ? (
+        <Sam />
+      ) : (
+        <div className="font-mochiy text-sm">Loading...</div>
+      )}
+      
     </>
   );
 };
