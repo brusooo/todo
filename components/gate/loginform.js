@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { signIn } from "next-auth/client";
 import { toast } from "react-toastify";
+import bcrypt from 'bcryptjs';
 
 const LoginForm = ({ login, create }) => {
   const [values, setValues] = useState({
@@ -28,7 +29,7 @@ const LoginForm = ({ login, create }) => {
     let post = {
       name: values.name,
       email: values.email,
-      password: values.password,
+      password: bcrypt.hashSync(values.password, bcrypt.genSaltSync()),
     };
 
     let response = await fetch("http://localhost:3000/api/auth/emaillogin", {

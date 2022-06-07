@@ -1,14 +1,22 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom";
+import React, { useState, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 
-import * as data from "./data";
+import { data } from "./data";
 import Container from "./Container";
 import DropContainer from "./DropContainer";
 
+const Kanban = () => {
+  let localData = JSON.parse(window.localStorage.getItem('localData'));
+  if(!localData){
+    window.localStorage.setItem('localData',JSON.stringify(data));
+    localData = data;
+  }
+  const[state,setState] = useState(localData);
 
-const Sam = () => {
-  const [state, setState] = useState(data);
+  useEffect(()=>{
+    window.localStorage.setItem('localData',JSON.stringify(state));
+  },[state])
+  
   const onDragEnd = ({ source, destination, draggableId }) => {
     if (source && destination) {
       setState((prevState) => {
@@ -72,6 +80,7 @@ const Sam = () => {
       </DragDropContext>
     </Container>
   );
+  
 };
 
-export default Sam;
+export default Kanban;

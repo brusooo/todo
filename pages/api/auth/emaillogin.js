@@ -1,4 +1,7 @@
 import clientPromise from "../../../lib/mongodb";
+import bcrypt from 'bcryptjs';
+
+
 
 export default async function handler(req, res) {
   const client = await clientPromise;
@@ -23,11 +26,15 @@ export default async function handler(req, res) {
         .find({
           name: req.query.name,
           email: req.query.email,
-          password: req.query.password,
         })
         .toArray();
       
-        res.json(users[0]);
+        
+      if(bcrypt.compareSync(req.query.password, users[0].password))
+      { res.json(users[0]); }
+      else{
+        return false
+      }
 
       break;
   }

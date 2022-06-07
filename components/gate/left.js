@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import LoginForm from "../components/loginform";
-import GoogleSignIn from "../components/gosignin";
+import LoginForm from "./loginform";
+import GoogleSignIn from "./gosignin";
 import Router from "next/router";
 
 const Left = (props) => {
