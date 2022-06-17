@@ -6,8 +6,9 @@ import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
 import Kanban from "../components/todo/Kanban";
 import Load from "../components/todo/load";
-import { GiFeather } from "react-icons/gi";
+import { GiFeather, GiSave } from "react-icons/gi";
 import Add from "../components/todo/Add";
+import Save from "../components/todo/save";
 
 const Profile = ({ session }) => {
   const [winReady, setwinReady] = useState(false);
@@ -21,10 +22,11 @@ const Profile = ({ session }) => {
       window.sessionStorage.setItem("sesCount", 1);
       sesCount = 1;
     }
-    setCount(sesCount)
+    setCount(sesCount);
   }, []);
 
   if (!count) {
+    
     toast("👍  Login Successful! ", { toastId: "Success", theme: "dark" });
   }
 
@@ -62,14 +64,18 @@ const Profile = ({ session }) => {
           </button>
         </div>
       </div>
+
+      <Save username={session.user.name} />
       <div
-        className="absolute left-5 bottom-[70px] text-center cursor-pointer"
+        className="absolute text-white bg-[#4834D4] p-3 rounded-[50%] left-5 bottom-[10%] text-center cursor-pointer"
         onClick={handlePencil}
       >
-        <GiFeather className="text-white bg-[#4834D4] p-2 rounded-[50%] text-5xl" />
+        <GiFeather className="text-2xl" />
       </div>
-      
+
       {pencil ? <Add /> : winReady ? <Kanban /> : <Load />}
+      {/* <Add /> */}
+      {/* {  winReady ? <Kanban /> : <Load /> } */}
     </>
   );
 };

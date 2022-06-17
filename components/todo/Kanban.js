@@ -6,17 +6,24 @@ import Container from "./Container";
 import DropContainer from "./DropContainer";
 
 const Kanban = () => {
+
+
   let localData = JSON.parse(window.localStorage.getItem('localData'));
   if(!localData){
     window.localStorage.setItem('localData',JSON.stringify(data));
+
     localData = data;
   }
+
+
   const[state,setState] = useState(localData);
 
   useEffect(()=>{
     window.localStorage.setItem('localData',JSON.stringify(state));
   },[state])
+ 
   
+
   const onDragEnd = ({ source, destination, draggableId }) => {
     if (source && destination) {
       setState((prevState) => {
